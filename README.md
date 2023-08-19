@@ -1,6 +1,33 @@
 # Maven Deployer
-Simple program for mass deploying of jar-archive on remote maven repository.
+Simple program for mass deploying of jar-archive on remote maven repository. 
 
+## Build
+
+For app building you have to install golang tools package in your OS. Check the installation:
+
+```bash
+$ go version
+go version go1.19.8 linux/amd64
+```
+
+Then, clone, build and launch the app's help:
+```bash
+$ git clone https://github.com/JAkutenshi/mvn-deployer.git
+$ cd mvn-deployer
+$ go build -o mvn-deployer main.go
+$ ./mvn-deployer -h
+Usage of ./mvn-deployer:
+  -file string
+        Required: JSON-file path with JARs' descriptions
+  -host string
+        Required: GitLab instance's hostname e.g. "gitlab.com"
+  -proj string
+        Required: GitLab's project ID: number or unique name
+  -serv string
+        Required: Desired maven server ID in .m2/settings.xml with gitlab-token provided
+```
+
+## JAR-archives JSON's format
 The app can deploy (upload) all given jar-archives in provided json-file to remote GitLab project's maven repository. JSON's file `example-jars.json` format:
 
 ```json
@@ -20,6 +47,7 @@ The app can deploy (upload) all given jar-archives in provided json-file to remo
 ]
 ```
 
+## GitLab repository's server settings
 Before launching you should prepare your `~/.m2/settings.xml` and provide maven repository server:
 
 ```xml
@@ -37,6 +65,7 @@ Before launching you should prepare your `~/.m2/settings.xml` and provide maven 
 
 ```
 
+## Launching example
 Then, you can go:
 ```bash
 $ mvn-deployer -file=example-jars.json -host=gitlab.com -proj=1 -serv=my-server-id
@@ -51,5 +80,3 @@ $ mvn-deployer -file=example-jars.json -host=gitlab.com -proj=1 -serv=my-server-
 2023/08/19 22:35:06 Uploading artifact "org.apache.commons:commons-math3:3.6.1" done!
 2023/08/19 22:35:06 JARs to maven's repo uploading done!
 ```
-
-Enjoy~
